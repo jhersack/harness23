@@ -1931,11 +1931,7 @@ static int forward_dns_reply(unsigned char *reply, int reply_len, int protocol,
 
 	DBG("Received %d bytes (id 0x%04x)", reply_len, dns_id);
 
-    struct request_data _req;
-    memset(&_req, 0, sizeof(_req));
-    _req.append_domain = true;
-
-    req = &_req;
+	req = find_request(dns_id);
 	if (!req)
 		return -EINVAL;
 
@@ -2109,7 +2105,7 @@ static int forward_dns_reply(unsigned char *reply, int reply_len, int protocol,
 		}
 
 	pass:
-		/*g_free(req->resp);
+		g_free(req->resp);
 		req->resplen = 0;
 
 		req->resp = g_try_malloc(reply_len);
@@ -2119,7 +2115,7 @@ static int forward_dns_reply(unsigned char *reply, int reply_len, int protocol,
 		memcpy(req->resp, reply, reply_len);
 		req->resplen = reply_len;
 
-		cache_update(data, reply, reply_len);*/
+		cache_update(data, reply, reply_len);
 
 		g_free(new_reply);
 	}
@@ -2133,7 +2129,7 @@ out:
 		}
 	}
 
-	/*request_list = g_slist_remove(request_list, req);
+	request_list = g_slist_remove(request_list, req);
 
 	if (protocol == IPPROTO_UDP) {
 		sk = get_req_udp_socket(req);
@@ -2154,7 +2150,7 @@ out:
 	else
 		DBG("proto %d sent %d bytes to %d", protocol, err, sk);
 
-	destroy_request_data(req);*/
+	destroy_request_data(req);
 
 	return err;
 }
@@ -3947,19 +3943,3 @@ void __connman_dnsproxy_cleanup(void)
 
 	g_hash_table_destroy(partial_tcp_req_table);
 }
-
-#ifdef FUZZ
-
-int LLVMFuzzerTestOneInput(const uint8_t* data, size_t sz)
-{
-	unsigned char buf[4096];
-
-    size_t len = sz > sizeof(buf) ? sizeof(buf) : sz;
-    memcpy(buf, data, len);
-
-	forward_dns_reply(buf, len, IPPROTO_UDP, data);
-
-    return 0;
-}
-
-#endif

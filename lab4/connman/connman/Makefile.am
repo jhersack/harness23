@@ -232,8 +232,7 @@ src_connmand_CFLAGS = @DBUS_CFLAGS@ @GLIB_CFLAGS@ @XTABLES_CFLAGS@ \
 				-DSTORAGEDIR=\""$(storagedir)\"" \
 				-DVPN_STORAGEDIR=\""$(vpn_storagedir)\"" \
 				-DCONFIGDIR=\""$(configdir)\"" \
-				-I$(builddir)/src \
-                -fsanitize=fuzzer,address -DFUZZ=1 -g
+				-I$(builddir)/src
 
 EXTRA_DIST = src/genbuiltin src/connman-dbus.conf src/connman-polkit.conf \
 				plugins/connman-nmcompat.conf \
