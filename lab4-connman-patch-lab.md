@@ -38,6 +38,7 @@ See the included patch file for hints.
 Next, let's build everything locally:
 
 ```
+cd lab4/connman/connman
 ./bootstrap
 CC=clang ./configure
 make
@@ -46,13 +47,13 @@ make
 Build the Docker image:
 
 ```
-docker build -t ghcr.io/<YOUR GITHUB USERNAME>/connman-dnsproxy:latest -f dnsproxy/Dockerfile .
+docker build -t $MAYHEM_DOCKER_REGISTRY/<YOUR MAYHEM USERNAME>/connman-dnsproxy:latest .
 ```
 
 Push the Docker image:
 
 ```
-docker push ghcr.io/<YOUR GITHUB USERNAME>/connman-dnsproxy:latest
+docker push $MAYHEM_DOCKER_REGISTRY/<YOUR MAYHEM USERNAME>/connman-dnsproxy:latest
 ```
 
 Be sure to mark the package as public in GitHub.
@@ -62,14 +63,10 @@ Be sure to mark the package as public in GitHub.
 Next, let's create a new Mayhemfile. `mayhem init` should generate a Mayhemfile that doesn't require any changes!
 
 ```
-mkdir dnsproxy
+mayhem init -o mayhem/Mayhemfile  $MAYHEM_DOCKER_REGISTRY/<YOUR MAYHEM USERNAME>/connman-dnsproxy:latest 
 ```
 
 ```
-mayhem init -o dnsproxy/Mayhemfile ghcr.io/<YOUR GITHUB USERNAME>/connman-dnsproxy:latest
-```
-
-```
-mayhem run dnsproxy
+mayhem run mayhem/
 ```
 
