@@ -32,14 +32,7 @@ int fuzz_fd = -1;
 
 // LD_PRELOAD'd getenv function (checks for fuzzed envvars first)
 char *getenv(const char *name) {
-    char **tracer;
-    int namelen = strlen(name);
-
-    for (tracer = fuzz_envp; *tracer != NULL; tracer++) {
-        if (strncmp(name, *tracer, namelen) == 0) return (*tracer) + namelen + 1;
-    }
-
-    return getenv_orig(name);
+/*return fuzzed_envp[key]*/
 }
 
 
@@ -68,38 +61,29 @@ void clean_fs() {
 }
 
 void check_injection() {
-    printf("checking if /getfuzzed exists\n");
-    if (access("/getfuzzed", F_OK) == 0) {
-        printf("command injection detected\n");
-        abort();
-    }
+/*   if file_exists("/getfuzzed"):
+       print("injection from {}".format(cmd))
+       abort()
+       */
 }
 
 
 int system(const char *cmd) {
-    int ret = system_orig(cmd);
-    check_injection();
-    return ret;
+/* 
+clean_fs()
+   ret = system_orig(cmd)
+   check_injection(cmd)
+   return ret
+   */
 }
 
 
 FILE *popen(const char *cmd, const char *mode) {
-    printf("popen:\n%s\n", cmd);
-
-    FILE *ret = popen_orig(cmd, mode);
-
-    if (ret != NULL) {
-        int fd = fileno(ret);
-        struct pollfd fds = {.fd = fd, .events = POLLIN};
-        int status = poll(&fds, 1, 1000); // wait up to one second for data
-        if (status == 0) {
-            printf("timed out checking popen\n");
-        }
-    }
-
-    check_injection();
-    
-    return ret;
+/*   clean_fs()
+   ret = popen_orig(cmd, rw)
+   check_injection(cmd)
+   return ret
+   */
 }
 
 
@@ -189,20 +173,13 @@ int __libc_start_main(
     void (*rtld_fini)(void),
     void *stack_end)
 {
-    // save the real function addresses
-    main_orig = main;
 
-    // grab original hooked functions
-    getenv_orig = (typeof(getenv_orig)) dlsym(RTLD_NEXT, "getenv");
-    read_orig = (typeof(read_orig)) dlsym(RTLD_NEXT, "read");
-    system_orig = (typeof(system_orig)) dlsym(RTLD_NEXT, "system");
-    popen_orig = (typeof(popen_orig)) dlsym(RTLD_NEXT, "popen");
+/*
+   fuzzed = open(argv[-1])
+   for env in envp:
+       if env.data == "fuzzme":
+           env.data = fuzzed.read(ENV_SIZE)
+   fuzzed_envp = envp
+   return main(argc, argv, envp)*/
 
-    unsetenv("LD_PRELOAD");
-
-    // Find the real __libc_start_main()...
-    typeof(&__libc_start_main) orig = (typeof(&__libc_start_main)) dlsym(RTLD_NEXT, "__libc_start_main");
-
-    // ... and call it with our custom main function
-    return orig(main_hook, argc, argv, init, fini, rtld_fini, stack_end);
 }
