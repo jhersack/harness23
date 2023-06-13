@@ -20,7 +20,7 @@ Focusing on JSON, we find a minimal example of how to encode to JSON here : http
 
 ### Step 2. Fuzz the JSONOutputArchive
 
-Let's modfiy the stubbed out harness in the `cansecwest22/cereal` folder.
+Let's modfiy the stubbed out harness in the `lab2/cereal` folder.
 
 To test this, we'll test the JSON serializer's ability to handle strings, so modify the `json_fuzzer.cpp` like so:
 
@@ -53,21 +53,19 @@ int main(int argc, char** argv)
 Next, build the Docker image for the target:
 
 ```
-docker build -t ghcr.io/<YOUR GITHUB USERNAME>/cereal-json:latest .
+docker build -t $MAYHEM_DOCKER_REGISTRY/<YOUR MAYHEM USERNAME>/cereal-json:latest .
 ```
 
 And of course, push to the registry:
 
 ```
-docker push ghcr.io/<YOUR GITHUB USERNAME>/cereal-json:latest
+docker push $MAYHEM_DOCKER_REGISTRY/<YOUR MAYHEM USERNAME>/cereal-json:latest
 ```
-
-Once you've pushed the image to the registry, be sure to mark its visibility to public. See: https://docs.github.com/en/packages/learn-github-packages/configuring-a-packages-access-control-and-visibility#configuring-visibility-of-container-images-for-your-personal-account
 
 Now generate a `Mayhemfile`:
 
 ```
-mayhem init ghcr.io/<YOUR GITHUB USERNAME>/cereal-json:latest
+mayhem init $MAYHEM_DOCKER_REGISTRY/<YOUR MAYHEM USERNAME>/cereal-json:latest
 ```
 
 Notice this time we provided a Docker image to `mayhem init`. We did this because the Mayhem CLI will automatically inspect a container to try to determine how to run your target. Inspect the resulting `Mayhemfile` with your favorite text editor.
@@ -103,12 +101,6 @@ Well, the next step is to look to improve your target. There are multiple ways t
 ### Step 1. Convert our Existing Harness to use libFuzzer
 
 First, we need adapt our harness to use libFuzzer. Fortunately, we'll be deleting code, so this step is pretty easy. Remember that libFuzzer harnesses deliver test cases via arguments to a function named `LLVMFuzzerTestOneInput`. So for this step, we'll rename our `main` function and remove the file IO code.
-
-Change into `cansecwest22/cereal`:
-
-    ```
-    cd cansecwest22/cereal
-    ```
 
 Modify `json_fuzzer.cpp` and the main function for libFuzzer using your favorite text editor. It should look similar to this:
 
@@ -182,16 +174,14 @@ Since our Cereal harness no longer accepts file input, we need to update the May
 First, re-build the Docker image:
 
 ```
-docker build -t ghcr.io/<YOUR GITHUB USERNAME>/cereal-json:latest .
+docker build -t $MAYHEM_DOCKER_REGISTRY/<YOUR MAYHEM USERNAME>/cereal-json:latest .
 ```
 
 Push to the registry:
 
 ```
-docker push ghcr.io/<YOUR GITHUB USERNAME>/cereal-json:latest
+docker push $MAYHEM_DOCKER_REGISTRY/<YOUR MAYHEM USERNAME>/cereal-json:latest .
 ```
-
-You should not have to mark the package as public again.
 
 Finally, start the run:
 
