@@ -15,5 +15,5 @@
 * [Lab 2. Harnessing Cereal](lab2-cereal-lab.md#part-1-harnessing-cereal)
 * [Lab 3. U-Boot](lab3-u-boot-lab.md)
 * [Lab 4. Connman DNS Proxy](lab4-connman-patch-lab.md)
-* [Lab 5. Connman DHCP Client](lab5-ld_preload-lab.mdd)
+* [Lab 5. LD_PRELOAD](lab5-ld_preload-lab.md)
 
