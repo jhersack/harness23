@@ -86,7 +86,7 @@ docker push $MAYHEM_DOCKER_REGISTRY/<YOUR MAYHEM USERNAME>/u-boot:latest
 
 Next, we can create a better seed. Notice that we're analyzing the ext4 driver of U-Boot. So why not provide an ext4 disk image?
 
-Create a new `tests` folder:
+Create a new `testsuite` folder:
 
 ```
 mkdir testsuite
