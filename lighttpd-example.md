@@ -6,21 +6,9 @@ This guide will show you how to get started with Mayhem using the web interface.
 
 **Time to complete**: About 5 minutes
 
-## Step 1. Create a Mayhem account
+## Step 1. Login to your Mayhem account
 
-Create a new account by navigating to [mayhem.forallsecure.com](https://mayhem.forallsecure.com) and select sign in with GitHub:
-
-![Sign In with Github](assets/images/sign-in-with-github.png)
-
-On the GitHub sign in page, enter your GitHub credentials or click Create an account:
-
-![Enter Credentials or Signup](assets/images/github-login-or-signup.png)
-
-If you're creating a new GitHub account, follow the onscreen instructions.
-
-In either case, if you're creating a new account or logging in with an existing account, you should eventually be prompted to authorize Mayhem. Click "Authorize ForAllSecure".
-
-![Authorize ForAllSecure](assets/images/authorize-mayhem.png)
+Create a new account or login by navigating to [mayhem]:
 
 ## Step 2. Create a new Run
 
@@ -76,7 +64,7 @@ This guide will show you how to start a run using the Mayhem CLI.
 
 ## Step 1. Install the Mayhem CLI
 
-Before using the Mayhem CLI, you need to install it. Fortunately, Mayhem provides instructions for you.
+Before using the Mayhem CLI, you need to install it. Fortunately, Mayhem provides instructions for you. This is already done on your VM.
 
    * Click on "Download Mayhem CLI"
 
@@ -115,16 +103,15 @@ At this point the entire login command has been copied to your clipboard. Paste 
 
 The command should look similar to this:
 ```
-mayhem login https://mayhem.forallsecure.com/ <YOUR API KEY>
+mayhem login https://mda.forallsecure.com/ <YOUR API KEY>
 ```
 
 ## Step 3. Clone cansecwest22
 
-Clone the cansecwest22 repo and change into the lighttpd directory.
+change into the lab1/lighttpd directory.
 
 ```
-git clone https://github.com/ForAllSecure/cansecwest22
-cd cansecwest22/lighttpd/
+cd lab1/lighttpd/
 ```
 
 ## Step 4. Start the run with the Mayhem CLI.
@@ -149,7 +136,7 @@ Note the warning regarding the corpus directory is normal for this tutorial.
 Navigate to the Web interface for this run by clicking on the "Run URL" from
 the output in the VM's shell.
 
-Like lab 1a, the run may take a few minutes to complete, as analysis and
+The run may take a few minutes to complete, as analysis and
 post-analysis processing need to finish. Once the run completes, the web page
 should look similar to this:
 
