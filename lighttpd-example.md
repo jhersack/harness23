@@ -63,8 +63,8 @@ This guide will show you how to start a run using the Mayhem CLI.
 **Time to complete**: About 5 minutes
 
 ## Step 1. Install the Mayhem CLI
-
-Before using the Mayhem CLI, you need to install it. Fortunately, Mayhem provides instructions for you. This is already done on your VM.
+This is already done on your VM.
+Before using the Mayhem CLI, you need to install it. Fortunately, Mayhem provides instructions for you. 
 
    * Click on "Download Mayhem CLI"
 
