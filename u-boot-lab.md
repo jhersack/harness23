@@ -10,27 +10,24 @@ In this lab you will fuzz U-Boot to reproduce defects for known vulnerabilities 
 
 For this lab, we've already created a Dockerfile to build an AFL compiled U-Boot. Follow these instructions to build and push.
 
-Change into `u-boot-2019.07-rc4`:
+Change into `lab3/u-boot`:
 
 ```
-cd u-boot-2019.07-rc4/
+cd lab3/u-boot/
 ```
 
 Build the Docker image:
 
 ```
-docker build -t ghcr.io/<YOUR GITHUB USERNAME>/u-boot:latest .
+docker build -t $MAYHEM_DOCKER_REGISTRY/<YOUR MAYHEM USERNAME>/u-boot:latest .
 ```
 
 Push the Docker image:
 
 ```
-docker push ghcr.io/<YOUR GITHUB USERNAME>/u-boot:latest
+docker push $MAYHEM_DOCKER_REGISTRY/<YOUR MAYHEM USERNAME>/u-boot:latest
 ```
 
-Mark the image as public on GitHub:
-
-https://docs.github.com/en/packages/learn-github-packages/configuring-a-packages-access-control-and-visibility#configuring-visibility-of-container-images-for-your-personal-account
 
 ### Step 2. Launch on Mayhem
 
@@ -48,7 +45,7 @@ Then using your favorite text editor, update the resulting `Mayhemfile` so that 
 project: u-boot
 target: ext4
 
-image: ghcr.io/<YOUR GITHUB USERNAME>/u-boot:latest
+image: $MAYHEM_DOCKER_REGISTRY/<YOUR MAYHEM USERNAME>/u-boot:latest
 
 cmds:
   - cmd: /u-boot -c "host bind 0 /fs.ext4 ; ls host 0"
@@ -76,13 +73,13 @@ Using your favorite text editor, edit `cmd/host.c` to insert the following lines
 Build the Docker image:
 
 ```
-docker build -t ghcr.io/<YOUR GITHUB USERNAME>/u-boot:latest .
+docker build -t $MAYHEM_DOCKER_REGISTRY/<YOUR MAYHEM USERNAME>/u-boot:latest .
 ```
 
 Push the Docker image:
 
 ```
-docker push ghcr.io/<YOUR GITHUB USERNAME>/u-boot:latest
+docker push $MAYHEM_DOCKER_REGISTRY/<YOUR MAYHEM USERNAME>/u-boot:latest
 ```
 
 ### Step 4. Create a Better Seed
