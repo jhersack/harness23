@@ -1,4 +1,4 @@
-# Lab 2: Reproducing Defects Locally
+# Lab 1c: Reproducing Defects Locally
 
 ## Overview
 
