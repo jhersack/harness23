@@ -89,19 +89,19 @@ Next, we can create a better seed. Notice that we're analyzing the ext4 driver o
 Create a new `tests` folder:
 
 ```
-mkdir tests
+mkdir testsuite
 ```
 
 Create an empty file:
 
 ```
-fallocate -l 1M tests/seed
+fallocate -l 1M testsuite/seed
 ```
 
 Create an ext4 file system in the empty file:
 
 ```
-mkfs.ext4 tests/seed
+mkfs.ext4 testsuite/seed
 ```
 
 ### Step 5. Re-launch on Mayhem
